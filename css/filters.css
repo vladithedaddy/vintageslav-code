@@ -42,9 +42,11 @@
   color:#fff;
   font-size:11px;
   letter-spacing:.06em;
+  text-transform:uppercase;
 }
 #vs-shop-filter .vs-search::placeholder{
   color:#aaa;
+  text-transform:uppercase;
 }
 #vs-shop-filter .vs-search-clear{
   position:absolute;
