@@ -57,6 +57,37 @@
     try { localStorage.setItem(k, JSON.stringify({t:now(), v})); } catch(e){}
   };
 
+  const ready = fn => {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', fn, { once: true });
+    } else {
+      fn();
+    }
+  };
+
+  const waitForWrap = () => {
+    const found = () => document.querySelector(WRAP_SELECTOR);
+    const existing = found();
+    if (existing) return Promise.resolve(existing);
+
+    return new Promise(resolve => {
+      const start = Date.now();
+      const timeout = 10000;
+      const iv = setInterval(() => {
+        const el = found();
+        if (el) {
+          clearInterval(iv);
+          resolve(el);
+          return;
+        }
+        if (Date.now() - start > timeout) {
+          clearInterval(iv);
+          resolve(null);
+        }
+      }, 200);
+    });
+  };
+
   const $  = (s,ctx) => (ctx||document).querySelector(s);
   const $$ = (s,ctx) => Array.from((ctx||document).querySelectorAll(s));
   const absUrl = h => /^https?:\/\//i.test(h||'') ? h : (location.origin + (h||''));
@@ -539,8 +570,8 @@
     if (d) d.remove();
   }
 
-  (async function init(){
-    const wrapEl = document.querySelector(WRAP_SELECTOR);
+  ready(async () => {
+    const wrapEl = await waitForWrap();
     if (!wrapEl) return;
     const listContainer = wrapEl.querySelector(LIST_CONTAINER_SEL) || wrapEl;
 
@@ -549,5 +580,5 @@
     try { data = await collectAll(listContainer); } catch(e){}
     removeLoader();
     if (data.length) buildUI(wrapEl, listContainer, data);
-  })();
+  });
 })();
