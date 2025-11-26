@@ -1,1 +1,379 @@
+/* Make the "ABOUT VINTAGE SLAV" text smaller only on mobile */
+@media (max-width: 640px) {
+  #block-359e2ffa6b2b9365d5af h1 {
+    font-size: 28px !important;     /* Adjust until it fits in one line */
+    line-height: 1.1 !important;    /* Keeps it tight vertically */
+    letter-spacing: 0.05em !important;
+  }
+}
+
+
+/* Make "AT VINTAGE SLAV..." paragraph smaller only on mobile */
+@media (max-width: 640px) {
+  #block-c2901467a9629a0d5706 p {
+    font-size: 14px !important;       /* Adjust until readable */
+    line-height: 1.8 !important;      /* Keeps paragraphs compact */
+    letter-spacing: 0.03em !important;
+  }
+
+  /* Optional: tighten block padding so it fits nicely */
+  #block-c2901467a9629a0d5706 {
+    --block-container-padding-top: 2% !important;
+    --block-container-padding-bottom: 2% !important;
+
+    padding: 5% !important;
+  }
+}
+
+/* Make the contact text smaller only on mobile */
+@media (max-width: 640px) {
+  #block-5bf1769381dc61242b17 h3 {
+    font-size: 13px !important;   /* adjust size until it fits nicely */
+    line-height: 1.7 !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  #block-5bf1769381dc61242b17 h4 {
+    font-size: 13px !important;
+    line-height: 1.7 !important;
+  }
+}
+
+/* Make the entire contact form text smaller only on mobile */
+@media (max-width: 640px) {
+  #block-aafbc83fd5fb70e74c40 {
+    font-size: 14px !important;           /* base size for labels and text */
+  }
+
+  /* Form labels (NAME, EMAIL, MESSAGE) */
+  #block-aafbc83fd5fb70e74c40 label,
+  #block-aafbc83fd5fb70e74c40 legend,
+  #block-aafbc83fd5fb70e74c40 span,
+  #block-aafbc83fd5fb70e74c40 .caption-text {
+    font-size: 13px !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  /* Input fields and textareas */
+  #block-aafbc83fd5fb70e74c40 input,
+  #block-aafbc83fd5fb70e74c40 textarea {
+    font-size: 13px !important;
+    padding: 0px !important;
+  }
+
+  /* Placeholder text */
+  #block-aafbc83fd5fb70e74c40 ::placeholder {
+    font-size: 13px !important;
+  }
+
+  /* Submit button */
+  #block-aafbc83fd5fb70e74c40 .form-submit-button {
+    font-size: 13px !important;
+    padding: 10px 16px !important;
+  }
+}
+
+/* Make the "VINTAGE SLAV" heading smaller only on mobile */
+@media (max-width: 640px) {
+  #block-7a1126f3ce00b56ea549 h1 {
+    font-size: 28px !important;       /* adjust this value until it fits on one line */
+    line-height: 1.1 !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  /* If the underline shape gets misaligned, scale it too */
+  #block-7a1126f3ce00b56ea549 .TextShape-node {
+    transform: scale(0.75) !important;  /* adjust 0.7–0.85 depending on your design */
+    transform-origin: left center !important;
+  }
+}
+
+/* Make the "ABOUT US" link smaller on mobile only */
+@media (max-width: 640px) {
+  #block-7092db6ae11f03a01bc8 a {
+    font-size: 14px !important;      /* Adjust as needed */
+    letter-spacing: 0.04em !important;
+      }
+
+  /* Optional: reduce right alignment padding if it's too close to edge */
+  #block-7092db6ae11f03a01bc8 p {
+    text-align: bottom !important;
+    margin-bottom: -5px !important;
+  }
+
+}
+
+
+/* Make the "CONTACT US" link smaller on mobile only */
+@media (max-width: 640px) {
+  #block-a67cf7119d1f2e50c72a a {
+    font-size: 14px !important;      /* Adjust as needed */
+    letter-spacing: 0.04em !important;
+      }
+  /* Optional: reduce right alignment padding if it's too close to edge */
+  #block-7092db6ae11f03a01bc8 p {
+    text-align: bottom !important;
+    margin-bottom: -5px !important;
+  }
+
+}
+
+/* Make the "STORE POLICIES" link smaller on mobile only */
+@media (max-width: 640px) {
+  #block-872d36370c4e4122e2e9 a {
+    font-size: 14px !important;      /* Adjust as needed */
+    letter-spacing: 0.04em !important;
+      }
+  /* Optional: reduce right alignment padding if it's too close to edge */
+  #block-872d36370c4e4122e2e9 p {
+    text-align: bottom !important;
+    margin-bottom: 5px !important;
+  }
+
+}
+
+@media (max-width: 640px) {
+  #block-af84651f72efe6e5d787 h2 {
+    font-size: 13px !important; /* adjust to your liking */
+    line-height: 1.9em;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Make this specific image block taller on phones */
+  #block-421a2b24a604e294c9df .sqs-block-content {
+    height: 70vh !important; /* Increase height — try 80vh for even bigger */
+  }
+
+  #block-421a2b24a604e294c9df img {
+    object-fit: cover !important;
+    height: 100% !important;
+    width: 100% !important;
+  }
+}
+
+.usm-cat{position:relative;display:flex;align-items:center;gap:8px;}
+.usm-cat>a{flex:1 1 auto;text-transform:uppercase;text-decoration:none;}
+.usm-caret{flex:0 0 auto;width:22px;height:22px;line-height:20px;font-size:12px;border:1px solid currentColor;background:transparent;cursor:pointer;}
+.usm-sub{display:none;list-style:none;margin:6px 0 10px 14px;padding:0;border-left:1px solid currentColor;}
+.usm-sub li+li{margin-top:6px;}
+.usm-sub a{text-decoration:none;text-transform:uppercase;opacity:.9;}
+.usm-sub a:hover{opacity:1;}
+.usm-cat.open>.usm-sub{display:block;}
+.usm-cat+.usm-cat{margin-top:6px;}
+
+/* Make the SOCIAL MEDIA heading smaller only on mobile */
+@media (max-width: 640px) {
+  #block-b4bb3f65f4cf939adc98 h2 {
+    font-size: 21px !important;        /* Adjust until it fits comfortably */
+    line-height: 1.2 !important;
+    letter-spacing: 0.03em !important;
+    text-align: center !important;     /* Optional – centers the line on small screens */
+  }
+}
+
+/* Center title, description, and button in the carousel on mobile */
+@media (max-width: 640px) {
+  .list-item-content__text-wrapper,
+  .list-item-content__description,
+  .list-item-content__button-container {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block;
+  }
+
+  .list-item-content__title {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+  }
+
+  .list-item-content__button-container {
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  .list-item-content__button {
+    display: inline-block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+  }
+}
+
+@media (max-width: 640px) {
+  #block-yui_3_17_2_1_1761113564650_5781 p {
+    font-size: 11px !important;
+    line-height: 1.5em !important;
+    text-align: LEFT; /* Optional: center the text */
+  }
+}
+
+/* 📱 Force social icons left alignment on phones */
+@media screen and (max-width: 767px) {
+
+  /* Target all social link blocks inside footer */
+  footer .sqs-block-socialaccountlinks-v2 .sqs-svg-icon--list[style],
+  footer .sqs-block-socialaccountlinks-v2 .sqs-svg-icon--list {
+    display: flex !important;
+    justify-content: flex-start !important; /* Align icons left */
+    text-align: left !important;
+  }
+
+  footer .sqs-block-socialaccountlinks-v2 .sqs-svg-icon--outer {
+    text-align: left !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+  }
+
+  /* Optional: remove any right margin Squarespace adds */
+  footer .sqs-svg-icon--wrapper {
+    margin-right: 0.5em !important;
+    margin-left: 0 !important;
+  }
+}
+
+// TEXT HIGHLIGHT SELECTION COLOR //
+
+::selection {
+  background: #ffffff; /* white background */
+  color: #000000;      /* black text */
+}
+
+::-moz-selection {
+  background: #ffffff; /* white background for Firefox */
+  color: #000000;      /* black text */
+}
+
+
+
+/* Mobile-only: make the container a square and fill it */
+@media (max-width: 768px) {
+  /* Make common Squarespace image wrappers square when they contain this img */
+  .sqs-block-image:has(img[data-sqsp-image-block-image]),
+  .image-block:has(img[data-sqsp-image-block-image]),
+  .sqs-image:has(img[data-sqsp-image-block-image]),
+  .intrinsic:has(img[data-sqsp-image-block-image]) {
+    position: relative;
+    aspect-ratio: 1 / 1;   /* force square */
+    width: 100%;
+    overflow: hidden;       /* hide overflow so it crops cleanly */
+  }
+
+  /* Make the image fill that square */
+  .sqs-block-image:has(img[data-sqsp-image-block-image]) img[data-sqsp-image-block-image],
+  .image-block:has(img[data-sqsp-image-block-image]) img[data-sqsp-image-block-image],
+  .sqs-image:has(img[data-sqsp-image-block-image]) img[data-sqsp-image-block-image],
+  .intrinsic:has(img[data-sqsp-image-block-image]) img[data-sqsp-image-block-image] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;         /* fill the square */
+    object-fit: cover;    /* crop without distortion */
+    object-position: 50% 50%;
+    visibility: visible !important; /* override inline visibility:hidden during lazyload */
+  }
+}
+
+/* Make shop items more compact on desktop */
+.collection-type-products .product-list-container[data-product-list-layout="grid"] {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  grid-gap: 24px;
+}
+
+/* Prevent any one card from stretching huge */
+.collection-type-products .product-list-container[data-product-list-layout="grid"] .product-list-item {
+  max-width: 260px;
+  margin: 0 auto;
+}
+
+/* Make the filter block not push listings down */
+#vs-shop-filter{
+  margin:8px 0 0 0;   /* was 8px 0 16px 0 */
+}
+
+
+/* Move SORT BY left */
+#vs-shop-filter .vs-sortbar {
+  transform: translate( -48px, 100px );  /* X = left/right, Y = up/down */
+}
+
+/* If needed, adjust the menu to stay aligned under the button */
+#vs-shop-filter .vs-sort-wrap {
+  position: relative;
+  right: 0;
+}
+
+/* ---------- DESKTOP / DEFAULT RESET ---------- */
+/* Base behavior: sort under filter, no weird offset */
+#vs-shop-filter{
+  margin:8px 0 16px 0;
+}
+#vs-shop-filter .vs-sortbar{
+  margin-top:16px;
+  transform:none;
+}
+
+/* ---------- LARGE DESKTOP ONLY (match picture 1) ---------- */
+/* Only on wide screens, push SORT BY down + a bit left
+   so it lines up with the first row of listings */
+@media (min-width: 1200px){
+  #vs-shop-filter{
+    margin:8px 0 0 0;            /* pull listings up a bit */
+  }
+  #vs-shop-filter .vs-sortbar{
+    margin-top:0;
+    transform: translate(-40px, 48px);  /* tweak X/Y if you want tiny adjustments */
+  }
+}
+
+/* ---------- MOBILE: put it back to "original" behavior ---------- */
+@media (max-width: 760px){
+  #vs-shop-filter{
+    margin:8px 0 16px 0;         /* normal spacing above listings */
+  }
+  #vs-shop-filter .vs-sortbar{
+    justify-content:flex-start;  /* like before: aligns with content, not far right edge */
+    margin-top:8px;
+    transform:none;              /* no manual offset on phone */
+  }
+}
+
+/* Remove extra dead space above product listings on desktop */
+@media (min-width: 1200px){
+  /* Pull the product grid upward */
+  .collection-type-products .product-list {
+    margin-top: -50px;   /* adjust this number until perfect */
+  }
+}
+
+/* Make header logo spin like a record */
+.header-branding-logo-image img,
+.header-title-logo img,
+.header-title-logo-image img,
+.site-title-logo img {
+  animation: record-spin 12s linear infinite;
+  transform-origin: center center;
+  display: inline-block;
+}
+
+/* Optional: pause spin when hovered (desktop) */
+.header-branding-logo-image img:hover,
+.header-title-logo img:hover,
+.header-title-logo-image img:hover,
+.site-title-logo img:hover {
+  animation-play-state: paused;
+}
+
+/* Keyframes for spinning logo */
+@keyframes record-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 
