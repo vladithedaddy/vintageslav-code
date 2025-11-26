@@ -1,0 +1,21 @@
+name: Sync release branch
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Force update release branch
+        run: |
+          git checkout -B release
+          git push origin release --force
