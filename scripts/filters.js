@@ -524,7 +524,10 @@
 
     // SEARCH BAR – live search with clear button
     function updateSearch(){
-      const q = (sInput.value || '').trim().toLowerCase();
+      const raw = (sInput.value || '').trim();
+      const upper = raw.toUpperCase();
+      if (sInput.value !== upper) sInput.value = upper;
+      const q = upper.toLowerCase();
       state.search = q;
       sWrap.classList.toggle('has-value', !!q);
       apply();
