@@ -7,6 +7,9 @@
   const LINK_SELECTOR      = '.product-list-item-link';
   const TITLE_SELECTOR     = '.product-list-item-title';
   const PRICE_SELECTOR     = '.product-list-item-price';
+  const FALLBACK_CARD_LINK_SEL  = 'a[href*="/product"], a[href*="/shop/"]';
+  const FALLBACK_TITLE_SELS     = ['.product-title', '.list-item-title', '[data-test="product-title"]', 'h2', 'h3'];
+  const FALLBACK_PRICE_SELS     = ['[data-test="product-price"]', '.product-price', '.list-item-price', '.product-list-item-price'];
 
   const PDP_DESC_SELECTORS = [
     '.ProductItem-details .sqs-block-html',
@@ -96,6 +99,67 @@
     const m = (n.textContent||'').replace(/[, ]/g,'').match(/(\d+(\.\d+)?)/);
     return m ? parseFloat(m[1]) : null;
   };
+
+  const log = (...args) => {
+    try {
+      if (window.VS_CONFIG && window.VS_CONFIG.debug) console.log('[VS Filters]', ...args);
+    } catch(e){}
+  };
+
+  function lowestCommonAncestor(nodes){
+    if (!nodes.length) return null;
+    const paths = nodes.map(n => {
+      const arr = [];
+      let cur = n;
+      while (cur){ arr.push(cur); cur = cur.parentElement; }
+      return arr;
+    });
+    let lca = null;
+    for (let depth = 0;; depth++){
+      let cand = null;
+      for (const p of paths){
+        if (p.length <= depth) return lca;
+        if (!cand) { cand = p[depth]; continue; }
+        if (p[depth] !== cand) return lca;
+      }
+      lca = cand;
+    }
+  }
+
+  function findFallbackCards(){
+    const anchors = $$(FALLBACK_CARD_LINK_SEL, document).filter(a => {
+      const href = a.getAttribute('href') || '';
+      if (!/^https?:\/\//.test(href) && !href.startsWith('/')) return false;
+      if (a.closest('header, nav, footer')) return false;
+      if (!a.querySelector('img')) return false;
+      return true;
+    });
+    if (anchors.length < 3) return { wrapEl:null, listContainer:null, items:[] };
+
+    const lca = lowestCommonAncestor(anchors) || document.body;
+    return { wrapEl:lca, listContainer:lca, items:anchors };
+  }
+
+  function findTitle(node){
+    for (const sel of [TITLE_SELECTOR, ...FALLBACK_TITLE_SELS]){
+      const el = $(sel, node);
+      if (el && el.textContent) return el.textContent.trim();
+    }
+    const txt = (node.textContent || '').trim();
+    if (txt) return txt.split('\n').map(s => s.trim()).filter(Boolean)[0] || '';
+    return '';
+  }
+
+  function findPrice(node){
+    for (const sel of [PRICE_SELECTOR, ...FALLBACK_PRICE_SELS]){
+      const el = $(sel, node);
+      if (el) {
+        const p = priceFrom(el);
+        if (p !== null) return p;
+      }
+    }
+    return priceFrom(node);
+  }
 
   // Track views for PDPs (for "FEATURED" sort)
   (function trackViewsIfPDP(){
@@ -214,11 +278,12 @@
     }
   }
 
-  async function collectAll(listContainer){
-    const cards = $$(ITEM_SELECTOR, listContainer);
+  async function collectAll(listContainer, items){
+    const cards = items && items.length ? items : $$(ITEM_SELECTOR, listContainer);
     const data  = cards.map((el, index) => {
-      const href      = $(LINK_SELECTOR, el)?.getAttribute('href') || '';
-      const title     = $(TITLE_SELECTOR, el)?.textContent?.trim() || '';
+      const linkEl    = el.matches('a') ? el : $(LINK_SELECTOR, el) || $(FALLBACK_CARD_LINK_SEL, el);
+      const href      = linkEl?.getAttribute('href') || '';
+      const title     = findTitle(el);
       const url       = absUrl(href);
       const views     = getViewsForPath(url);
       const cardText  = el.textContent || '';
@@ -229,7 +294,7 @@
         id: el.getAttribute('data-product-id') || '',
         url,
         title,
-        price: priceFrom($(PRICE_SELECTOR, el)),
+        price: findPrice(el),
         sizes: [],
         colors: [],
         brands: [],
@@ -571,13 +636,26 @@
   }
 
   ready(async () => {
-    const wrapEl = await waitForWrap();
-    if (!wrapEl) return;
-    const listContainer = wrapEl.querySelector(LIST_CONTAINER_SEL) || wrapEl;
+    let wrapEl = await waitForWrap();
+    let listContainer = wrapEl ? (wrapEl.querySelector(LIST_CONTAINER_SEL) || wrapEl) : null;
+    let items = listContainer ? $$(ITEM_SELECTOR, listContainer) : [];
+
+    if (!wrapEl || !items.length){
+      log('Primary selectors missing, using fallback detection');
+      const alt = findFallbackCards();
+      wrapEl = alt.wrapEl;
+      listContainer = alt.listContainer;
+      items = alt.items;
+    }
+
+    if (!wrapEl || !listContainer || !items.length) {
+      log('No product list found; aborting filters init');
+      return;
+    }
 
     addLoader(wrapEl);
     let data = [];
-    try { data = await collectAll(listContainer); } catch(e){}
+    try { data = await collectAll(listContainer, items); } catch(e){ log('collect error', e); }
     removeLoader();
     if (data.length) buildUI(wrapEl, listContainer, data);
   });
