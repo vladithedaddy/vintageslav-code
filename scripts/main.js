@@ -3,6 +3,10 @@
 
 import { VS_CONFIG } from "./config.js";
 
+if (window.VS_DEV) {
+  console.warn("[VS] Dev mode enabled – modules will not be cached.");
+}
+
 if (VS_CONFIG.enableFilters) {
   import("./filters.js").then(() => {
     if (VS_CONFIG.debug) console.log("Filters loaded.");
