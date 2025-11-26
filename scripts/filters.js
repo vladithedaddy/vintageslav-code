@@ -7,7 +7,7 @@
   const LINK_SELECTOR      = '.product-list-item-link';
   const TITLE_SELECTOR     = '.product-list-item-title';
   const PRICE_SELECTOR     = '.product-list-item-price';
-  const FALLBACK_CARD_LINK_SEL  = 'a[href*="/product"], a[href*="/shop/"]';
+  const FALLBACK_CARD_LINK_SEL  = 'a[href*="/product"], a[href*="/shop/"], main a[aria-label]';
   const FALLBACK_TITLE_SELS     = ['.product-title', '.list-item-title', '[data-test="product-title"]', 'h2', 'h3'];
   const FALLBACK_PRICE_SELS     = ['[data-test="product-price"]', '.product-price', '.list-item-price', '.product-list-item-price'];
 
@@ -134,9 +134,11 @@
       if (!a.querySelector('img')) return false;
       return true;
     });
-    if (anchors.length < 3) return { wrapEl:null, listContainer:null, items:[] };
+    if (!anchors.length) return { wrapEl:null, listContainer:null, items:[] };
 
-    const lca = lowestCommonAncestor(anchors) || document.body;
+    log('Found fallback product anchors:', anchors.length);
+
+    const lca = anchors[0].closest('main') || lowestCommonAncestor(anchors) || document.body;
     return { wrapEl:lca, listContainer:lca, items:anchors };
   }
 
@@ -655,7 +657,7 @@
 
     addLoader(wrapEl);
     let data = [];
-    try { data = await collectAll(listContainer, items); } catch(e){ log('collect error', e); }
+    try { data = await collectAll(listContainer, items); log('Collected items:', data.length); } catch(e){ log('collect error', e); }
     removeLoader();
     if (data.length) buildUI(wrapEl, listContainer, data);
   });

@@ -5,5 +5,5 @@ export const VS_CONFIG = {
   enableFilters: true,     // Shop filter overlay
   enableLoader: true,      // Loader animation system
   enableLogoSpin: true,    // Vinyl-record style spinning logo
-  debug: false             // Extra console logs
+  debug: true              // Extra console logs
 };
