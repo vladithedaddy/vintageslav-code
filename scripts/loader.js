@@ -1,48 +1,7 @@
-<!-- ===== PERCENT LOADING SCREEN (vintageslav.com only on / and /shop) ===== -->
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const host = window.location.hostname.toLowerCase();
-    const path = window.location.pathname.toLowerCase();
+(() => {
+  const STYLE_ID = "vs-loader-style";
 
-    // Only run on vintageslav.com or www.vintageslav.com
-    const allowedHost = (host === "vintageslav.com" || host === "www.vintageslav.com");
-    // Only on homepage or /shop
-    const allowedPath = (path === "/" || path === "/shop");
-
-    if (!allowedHost || !allowedPath) return;
-
-    // Create loader container
-    const loader = document.createElement("div");
-    loader.id = "loader";
-    loader.innerHTML = '<div id="percent">0%</div>';
-    document.body.appendChild(loader);
-
-    // Prevent scroll while loading
-    document.documentElement.classList.add("loading");
-    document.body.classList.add("loading");
-
-    // Animate percentage
-    const percentEl = loader.querySelector("#percent");
-    let pct = 0;
-    const interval = setInterval(() => {
-      pct++;
-      percentEl.textContent = pct + "%";
-
-      if (pct >= 100) {
-        clearInterval(interval);
-        loader.classList.add("done");
-        setTimeout(() => {
-          loader.remove();
-          document.documentElement.classList.remove("loading");
-          document.body.classList.remove("loading");
-        }, 500); // fade duration
-      }
-    }, 13); // adjust speed here
-  });
-</script>
-
-<style>
-  /* Fullscreen black background with white percentage */
+  const styleText = `
   #loader {
     position: fixed;
     inset: 0;
@@ -58,16 +17,68 @@
     transition: opacity 0.4s ease;
   }
 
-  /* Fade-out when complete */
   #loader.done {
     opacity: 0;
     pointer-events: none;
   }
 
-  /* Disable scrolling during load */
   html.loading,
   body.loading {
     overflow: hidden;
+  }`;
+
+  function injectStyles() {
+    if (document.getElementById(STYLE_ID)) return;
+    const style = document.createElement("style");
+    style.id = STYLE_ID;
+    style.textContent = styleText;
+    document.head.appendChild(style);
   }
-</style>
-<!-- ===== END LOADING SCREEN ===== -->
+
+  function createLoader() {
+    if (document.getElementById("loader")) return null;
+    const loader = document.createElement("div");
+    loader.id = "loader";
+    loader.innerHTML = '<div id="percent">0%</div>';
+    document.body.appendChild(loader);
+    return loader;
+  }
+
+  function startLoader() {
+    const host = window.location.hostname.toLowerCase();
+    const path = window.location.pathname.toLowerCase();
+    const allowedHost = host === "vintageslav.com" || host === "www.vintageslav.com";
+    const allowedPath = path === "/" || path === "/shop";
+    if (!allowedHost || !allowedPath) return;
+
+    injectStyles();
+    const loader = createLoader();
+    if (!loader) return;
+
+    document.documentElement.classList.add("loading");
+    document.body.classList.add("loading");
+
+    const percentEl = loader.querySelector("#percent");
+    let pct = 0;
+    const interval = setInterval(() => {
+      pct += 1;
+      if (percentEl) percentEl.textContent = `${pct}%`;
+
+      if (pct >= 100) {
+        clearInterval(interval);
+        loader.classList.add("done");
+        setTimeout(() => {
+          loader.remove();
+          document.documentElement.classList.remove("loading");
+          document.body.classList.remove("loading");
+        }, 500);
+      }
+    }, 13);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", startLoader);
+  } else {
+    startLoader();
+  }
+})();

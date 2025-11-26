@@ -1,27 +1,32 @@
-/* Make header logo spin like a record */
-.header-branding-logo-image img,
-.header-title-logo img,
-.header-title-logo-image img,
-.site-title-logo img {
-  animation: record-spin 12s linear infinite;
-  transform-origin: center center;
-  display: inline-block;
-}
+(() => {
+  const STYLE_ID = "vs-logo-spin-style";
 
-/* Optional: pause spin when hovered (desktop) */
-.header-branding-logo-image img:hover,
-.header-title-logo img:hover,
-.header-title-logo-image img:hover,
-.site-title-logo img:hover {
-  animation-play-state: paused;
-}
+  const styleText = `
+  .header-branding-logo-image img,
+  .header-title-logo img,
+  .header-title-logo-image img,
+  .site-title-logo img {
+    animation: record-spin 12s linear infinite;
+    transform-origin: center center;
+    display: inline-block;
+  }
 
-/* Keyframes for spinning logo */
-@keyframes record-spin {
-  from {
-    transform: rotate(0deg);
+  .header-branding-logo-image img:hover,
+  .header-title-logo img:hover,
+  .header-title-logo-image img:hover,
+  .site-title-logo img:hover {
+    animation-play-state: paused;
   }
-  to {
-    transform: rotate(360deg);
+
+  @keyframes record-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }`;
+
+  if (!document.getElementById(STYLE_ID)) {
+    const style = document.createElement("style");
+    style.id = STYLE_ID;
+    style.textContent = styleText;
+    document.head.appendChild(style);
   }
-}
+})();
